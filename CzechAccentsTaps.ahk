@@ -58,6 +58,7 @@ lastTime := 0
 Loop {
     ih := InputHook("L1")
     ih.KeyOpt("{Backspace}", "ES")
+    ih.KeyOpt("{Escape}{Tab}{Enter}", "V")
     ih.Start()
     ih.Wait()
     if (ih.EndReason = "EndKey" && ih.EndKey = "Backspace") {
@@ -69,9 +70,13 @@ Loop {
     ch := ih.Input
     now := A_TickCount
 
-    isLetter := RegExMatch(ch, "^[A-Za-z]$")
+    if (ch != "" && Ord(ch) < 32) {
+        lastChar := ""
+        lastTime := 0
+        continue
+    }
 
-    if (isLetter && Table.Has(ch) && ch = lastChar && (now - lastTime) <= doubleWindow) {
+    if (Table.Has(ch) && ch = lastChar && (now - lastTime) <= doubleWindow) {
         ToggleChar()
     } else {
         Send "{Blind}{Text}" ch
