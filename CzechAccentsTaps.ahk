@@ -71,7 +71,7 @@ Loop {
 
     isLetter := RegExMatch(ch, "^[A-Za-z]$")
 
-    if (isLetter && ch = lastChar && (now - lastTime) <= doubleWindow) {
+    if (isLetter && Table.Has(ch) && ch = lastChar && (now - lastTime) <= doubleWindow) {
         ToggleChar()
     } else {
         Send "{Blind}{Text}" ch
