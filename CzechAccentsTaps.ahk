@@ -55,7 +55,7 @@ Loop {
     ih.Start()
     ih.Wait()
     if (ih.EndReason = "EndKey" && ih.EndKey = "Backspace") {
-        Send "{Backspace}"
+        Send "{Blind}{Backspace}"
         lastChar := ""
         lastTime := 0
         continue
@@ -68,7 +68,7 @@ Loop {
     if (isLetter && ch = lastChar && (now - lastTime) <= doubleWindow) {
         ToggleChar()
     } else {
-        Send ch
+        Send "{Blind}{Text}" ch
     }
 
     lastChar := ch
