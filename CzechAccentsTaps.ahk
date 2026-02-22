@@ -27,7 +27,13 @@ ToggleChar() {
     A_Clipboard := ""
 
     ; Copy last character
-    Send "+{Left}^c"
+    Send "{Blind}+{Left}"
+
+    if (GetKeyState("Shift", "P"))
+        Send "{Shift up}^c{Shift down}"
+    else
+        Send "^c"
+    
     if !ClipWait(0.3)
     {
         SoundPlay "*64"
@@ -36,9 +42,9 @@ ToggleChar() {
 
     ; Replace
     if (Table.Has(A_Clipboard))
-        SendText Table[A_Clipboard]
+        Send "{Blind}{Text}" Table[A_Clipboard]
     else
-        Send "+{Right}"
+        Send "{Blind}+{Right}"
 
     ; Restore clipboard
     A_Clipboard := ClipSaved
