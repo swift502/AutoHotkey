@@ -45,20 +45,27 @@ ToggleChar() {
     ClipSaved := ""
 }
 
-doubleWindow := 500  ; milliseconds (change if you like)
+doubleWindow := 500
 lastChar := ""
 lastTime := 0
 
-; --- Listener loop (runs forever) ---
-; Captures one visible character at a time, globally, without blocking the keystroke.
 Loop {
-    ih := InputHook("L1B")
+    ih := InputHook("L1")
+    ih.KeyOpt("{Backspace}", "ES")
     ih.Start()
     ih.Wait()
+    if (ih.EndReason = "EndKey" && ih.EndKey = "Backspace") {
+        Send "{Backspace}"
+        lastChar := ""
+        lastTime := 0
+        continue
+    }
     ch := ih.Input
     now := A_TickCount
 
-    if (ch = lastChar && (now - lastTime) <= doubleWindow) {
+    isLetter := RegExMatch(ch, "^[A-Za-z]$")
+
+    if (isLetter && ch = lastChar && (now - lastTime) <= doubleWindow) {
         ToggleChar()
     } else {
         Send ch
