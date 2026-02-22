@@ -17,11 +17,13 @@ Table := Map(
 )
 
 ; Generate uppercase
-for k, v in Table.Clone() {
+for k, v in Table.Clone()
+{
     Table[StrUpper(k)] := StrUpper(v)
 }
 
-ToggleChar() {
+ToggleChar()
+{
     ; Save clipboard
     ClipSaved := ClipboardAll()
     A_Clipboard := ""
@@ -51,34 +53,50 @@ ToggleChar() {
     ClipSaved := ""
 }
 
+ResetState()
+{
+    global lastChar, lastTime
+    lastChar := ""
+    lastTime := 0
+}
+
+ih := InputHook("L1")
+ih.KeyOpt("{Backspace}", "ES")
+ih.KeyOpt("{Escape}{Tab}{Enter}", "V")
+
 doubleWindow := 500
 lastChar := ""
 lastTime := 0
 
-Loop {
-    ih := InputHook("L1")
-    ih.KeyOpt("{Backspace}", "ES")
-    ih.KeyOpt("{Escape}{Tab}{Enter}", "V")
+Loop
+{
     ih.Start()
     ih.Wait()
-    if (ih.EndReason = "EndKey" && ih.EndKey = "Backspace") {
+
+    if (ih.EndReason = "EndKey" && ih.EndKey = "Backspace")
+    {
         Send "{Blind}{Backspace}"
-        lastChar := ""
-        lastTime := 0
+        ResetState()
         continue
     }
+
     ch := ih.Input
     now := A_TickCount
 
-    if (ch != "" && Ord(ch) < 32) {
-        lastChar := ""
-        lastTime := 0
+    if (ch != "" && Ord(ch) < 32)
+    {
+        ResetState()
         continue
     }
 
-    if (Table.Has(ch) && ch = lastChar && (now - lastTime) <= doubleWindow) {
+    isDoubleTap := (now - lastTime) <= doubleWindow
+
+    if (Table.Has(ch) && ch = lastChar && isDoubleTap)
+    {
         ToggleChar()
-    } else {
+    }
+    else
+    {
         Send "{Blind}{Text}" ch
     }
 
