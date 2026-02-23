@@ -12,6 +12,7 @@ A_TrayMenu.Delete()
 A_TrayMenu.Add("Enabled", (*) => ToggleEnabled())
 A_TrayMenu.Add("Reload", (*) => Reload())
 A_TrayMenu.Add("Reveal in File Explorer", (*) => Run(A_ScriptDir))
+A_TrayMenu.Add()
 A_TrayMenu.Add("Exit", (*) => ExitApp())
 A_TrayMenu.Default := "Enabled"
 
@@ -21,7 +22,7 @@ A_TrayMenu.Default := "Enabled"
 ; Input
 ih := InputHook("L1 V")
 ih.KeyOpt("{Backspace}{Delete}{Left}{Right}{Up}{Down}{Home}{End}{PgUp}{PgDn}", "N")
-ih.OnKeyDown := SequenceBreakerKeyDown
+ih.OnKeyDown := OnInterruptKeyDown
 
 ; State
 isEnabled := false
@@ -76,7 +77,7 @@ ResetState()
     sequenceChar := ""
 }
 
-SequenceBreakerKeyDown(*)
+OnInterruptKeyDown(*)
 {
     ResetState()
 }
