@@ -16,8 +16,14 @@ A_IconTip := "Czech Accents"
 TraySetIcon(disabledIcon)
 #Space::ToggleEnabled()
 
-A_TrayMenu.Add("Toggle Enabled", (*) => ToggleEnabled())
-A_TrayMenu.Default := "Toggle Enabled"
+Tray := A_TrayMenu
+Tray.Delete()
+Tray.Add("Enabled", (*) => ToggleEnabled())
+Tray.Add("Reveal in File Explorer", (*) => Run(A_ScriptDir))
+Tray.Add()
+Tray.Add("Reload", (*) => Reload())
+Tray.Add("Exit", (*) => ExitApp())
+Tray.Default := "Enabled"
 
 Table := Map(
     "a",  "á",   "á", "a",
@@ -59,6 +65,7 @@ ToggleEnabled()
     global isEnabled, enabledIcon, disabledIcon
     isEnabled := !isEnabled
     TraySetIcon(isEnabled ? enabledIcon : disabledIcon)
+    isEnabled ? Tray.Check("Enabled") : Tray.Uncheck("Enabled")
 }
 
 Loop
@@ -86,7 +93,7 @@ Loop
         if (Table.Has(sequenceChar))
         {
             sequenceChar := Table[sequenceChar]
-            Send "{Blind}{Backspace 2}{Text}" sequenceChar
+            Send("{Blind}{Backspace 2}{Text}" sequenceChar)
         }
     }
     else
