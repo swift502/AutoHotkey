@@ -4,10 +4,16 @@ ih := InputHook("L1 V")
 ih.KeyOpt("{Backspace}{Delete}{Left}{Right}{Up}{Down}{Home}{End}{PgUp}{PgDn}", "N")
 ih.OnKeyDown := SequenceBreakerKeyDown
 
-tapInterval := 300
+tapInterval := 350
 lastInputChar := ""
 lastTime := 0
 sequenceChar := ""
+isEnabled := false
+enabledIcon := A_ScriptDir "\assets\enabled.png"
+disabledIcon := A_ScriptDir "\assets\disabled.png"
+
+TraySetIcon(disabledIcon)
+#Space::ToggleEnabled()
 
 Table := Map(
     "a",  "á",   "á", "a",
@@ -44,6 +50,13 @@ SequenceBreakerKeyDown(*)
     ResetState()
 }
 
+ToggleEnabled()
+{
+    global isEnabled, enabledIcon, disabledIcon
+    isEnabled := !isEnabled
+    TraySetIcon(isEnabled ? enabledIcon : disabledIcon)
+}
+
 Loop
 {
     ih.Start()
@@ -51,6 +64,12 @@ Loop
 
     inputChar := ih.Input
     time := A_TickCount
+
+    if (!isEnabled)
+    {
+        ResetState()
+        continue
+    }
 
     if (Ord(inputChar) < 32)
     {
