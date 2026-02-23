@@ -22,7 +22,7 @@ A_TrayMenu.Default := "Enabled"
 ; Input
 ih := InputHook("L1 V")
 ih.KeyOpt("{Backspace}{Delete}{Left}{Right}{Up}{Down}{Home}{End}{PgUp}{PgDn}", "N")
-ih.OnKeyDown := OnInterruptKeyDown
+ih.OnKeyDown := ResetState
 
 ; State
 isEnabled := false
@@ -69,17 +69,12 @@ ToggleEnabled()
     }
 }
 
-ResetState()
+ResetState(*)
 {
     global lastInputChar, lastTime, sequenceChar
     lastInputChar := ""
-    lastTime := 0
+    lastTime := A_TickCount
     sequenceChar := ""
-}
-
-OnInterruptKeyDown(*)
-{
-    ResetState()
 }
 
 Loop
