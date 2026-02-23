@@ -10,7 +10,7 @@ disabledIcon := A_ScriptDir "\assets\disabled.png"
 TraySetIcon(disabledIcon)
 A_TrayMenu.Delete()
 A_TrayMenu.Add("Enabled", (*) => ToggleEnabled())
-A_TrayMenu.Add("Reload", (*) => Reload())
+A_TrayMenu.Add("Reload Script", (*) => Reload())
 A_TrayMenu.Add("Reveal in File Explorer", (*) => Run(A_ScriptDir))
 A_TrayMenu.Add()
 A_TrayMenu.Add("Exit", (*) => ExitApp())
