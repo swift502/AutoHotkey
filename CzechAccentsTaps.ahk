@@ -56,17 +56,8 @@ ToggleEnabled()
 {
     global isEnabled
     isEnabled := !isEnabled
-
-    if (isEnabled)
-    {
-        TraySetIcon(enabledIcon)
-        A_TrayMenu.Check("Enabled")
-    }
-    else
-    {
-        TraySetIcon(disabledIcon)
-        A_TrayMenu.Uncheck("Enabled")
-    }
+    TraySetIcon(isEnabled ? enabledIcon : disabledIcon)
+    A_TrayMenu.ToggleCheck("Enabled")
 }
 
 ResetState(*)
