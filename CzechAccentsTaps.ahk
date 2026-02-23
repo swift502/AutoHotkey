@@ -22,63 +22,37 @@ for k, v in Table.Clone()
     Table[StrUpper(k)] := StrUpper(v)
 }
 
-ToggleChar()
+ReplaceWithVariant(ch)
 {
-    ; Save clipboard
-    ClipSaved := ClipboardAll()
-    A_Clipboard := ""
-
-    ; Copy last character
-    Send "{Blind}+{Left}"
-
-    if (GetKeyState("Shift", "P"))
-        Send "{Shift up}^c{Shift down}"
-    else
-        Send "^c"
-    
-    if !ClipWait(0.3)
-    {
-        SoundPlay "*64"
-        return
-    }
-
-    ; Replace
-    if (Table.Has(A_Clipboard))
-        Send "{Blind}{Text}" Table[A_Clipboard]
-    else
-        Send "{Blind}+{Right}"
-
-    ; Restore clipboard
-    A_Clipboard := ClipSaved
-    ClipSaved := ""
+    Send "{Blind}{Backspace 2}{Text}" ch
 }
 
 ResetState()
 {
-    global lastChar, lastTime
+    global lastChar, lastTime, sequenceChar
     lastChar := ""
     lastTime := 0
+    sequenceChar := ""
 }
 
-ih := InputHook("L1")
-ih.KeyOpt("{Backspace}", "ES")
-ih.KeyOpt("{Escape}{Tab}{Enter}", "V")
+SequenceBreakerKeyDown(*)
+{
+    ResetState()
+}
 
-doubleWindow := 500
+ih := InputHook("L1 V")
+ih.KeyOpt("{Backspace}{Delete}{Left}{Right}{Up}{Down}{Home}{End}{PgUp}{PgDn}", "N")
+ih.OnKeyDown := SequenceBreakerKeyDown
+
+doubleWindow := 400
 lastChar := ""
 lastTime := 0
+sequenceChar := ""
 
 Loop
 {
     ih.Start()
     ih.Wait()
-
-    if (ih.EndReason = "EndKey" && ih.EndKey = "Backspace")
-    {
-        Send "{Blind}{Backspace}"
-        ResetState()
-        continue
-    }
 
     ch := ih.Input
     now := A_TickCount
@@ -91,13 +65,17 @@ Loop
 
     isDoubleTap := (now - lastTime) <= doubleWindow
 
-    if (Table.Has(ch) && ch = lastChar && isDoubleTap)
+    if (!isDoubleTap || ch != lastChar)
     {
-        ToggleChar()
+        sequenceChar := ch
     }
     else
     {
-        Send "{Blind}{Text}" ch
+        if (Table.Has(sequenceChar))
+        {
+            sequenceChar := Table[sequenceChar]
+            ReplaceWithVariant(sequenceChar)
+        }
     }
 
     lastChar := ch
