@@ -10,19 +10,19 @@ lastTime := 0
 sequenceChar := ""
 
 Table := Map(
-    "a",  "á",
-    "c",  "č",
-    "d",  "ď",
-    "e",  "ě",   "ě", "é",
-    "i",  "í",
-    "n",  "ň",
-    "o",  "ó",
-    "r",  "ř",
-    "s",  "š",
-    "t",  "ť",
-    "u",  "ů",   "ů", "ú",
-    "y",  "ý",
-    "z",  "ž"
+    "a",  "á",   "á", "a",
+    "c",  "č",   "č", "c",
+    "d",  "ď",   "ď", "d",
+    "e",  "ě",   "ě", "é",   "é", "e",
+    "i",  "í",   "í", "i",
+    "n",  "ň",   "ň", "n",
+    "o",  "ó",   "ó", "o",
+    "r",  "ř",   "ř", "r",
+    "s",  "š",   "š", "s",
+    "t",  "ť",   "ť", "t",
+    "u",  "ů",   "ů", "ú",   "ú", "u",
+    "y",  "ý",   "ý", "y",
+    "z",  "ž",   "ž", "z"
 )
 
 ; Generate uppercase
@@ -63,14 +63,8 @@ Loop
         if (Table.Has(sequenceChar))
         {
             sequenceChar := Table[sequenceChar]
+            Send "{Blind}{Backspace 2}{Text}" sequenceChar
         }
-        else
-        {
-            ; When no mapping is found, loop back to beginning
-            sequenceChar := inputChar
-        }
-
-        Send "{Blind}{Backspace 2}{Text}" sequenceChar
     }
     else
     {
