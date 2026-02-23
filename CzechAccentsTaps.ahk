@@ -83,9 +83,7 @@ Loop
     ih.Wait()
 
     if (!isEnabled)
-    {
         continue
-    }
 
     inputChar := ih.Input
     time := A_TickCount
