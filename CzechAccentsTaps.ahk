@@ -86,20 +86,13 @@ Loop
     ih.Start()
     ih.Wait()
 
-    inputChar := ih.Input
-    time := A_TickCount
-
     if (!isEnabled)
     {
-        ResetState()
         continue
     }
 
-    ; if (Ord(inputChar) < 32)
-    ; {
-    ;     ResetState()
-    ;     continue
-    ; }
+    inputChar := ih.Input
+    time := A_TickCount
 
     if ((time - lastTime) <= tapInterval && inputChar == lastInputChar && Table.Has(sequenceChar))
     {
