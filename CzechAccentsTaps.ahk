@@ -12,8 +12,13 @@ isEnabled := false
 enabledIcon := A_ScriptDir "\assets\enabled.png"
 disabledIcon := A_ScriptDir "\assets\disabled.png"
 
+A_IconTip := "Czech Accents"
 TraySetIcon(disabledIcon)
 #Space::ToggleEnabled()
+
+A_TrayMenu.Add("Toggle Enabled", (*) => ToggleEnabled())
+A_TrayMenu.Default := "Toggle Enabled"
+A_TrayMenu.ClickCount := 1
 
 Table := Map(
     "a",  "á",   "á", "a",
