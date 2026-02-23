@@ -4,7 +4,7 @@ ih := InputHook("L1 V")
 ih.KeyOpt("{Backspace}{Delete}{Left}{Right}{Up}{Down}{Home}{End}{PgUp}{PgDn}", "N")
 ih.OnKeyDown := SequenceBreakerKeyDown
 
-tapInterval := 350
+tapInterval := 400
 lastInputChar := ""
 lastTime := 0
 sequenceChar := ""
