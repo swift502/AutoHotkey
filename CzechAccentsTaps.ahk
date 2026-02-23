@@ -18,7 +18,6 @@ TraySetIcon(disabledIcon)
 
 A_TrayMenu.Add("Toggle Enabled", (*) => ToggleEnabled())
 A_TrayMenu.Default := "Toggle Enabled"
-A_TrayMenu.ClickCount := 1
 
 Table := Map(
     "a",  "á",   "á", "a",
