@@ -44,7 +44,7 @@ ih := InputHook("L1 V")
 ih.KeyOpt("{Backspace}{Delete}{Left}{Right}{Up}{Down}{Home}{End}{PgUp}{PgDn}", "N")
 ih.OnKeyDown := SequenceBreakerKeyDown
 
-doubleWindow := 400
+doubleWindow := 300
 lastChar := ""
 lastTime := 0
 sequenceChar := ""
