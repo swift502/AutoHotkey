@@ -5,13 +5,16 @@ A_IconTip := "Czech Accents"
 tapInterval := 500
 enabledIcon := A_ScriptDir "\assets\enabled.png"
 disabledIcon := A_ScriptDir "\assets\disabled.png"
+startupDir := EnvGet("AppData") "\Microsoft\Windows\Start Menu\Programs\Startup"
 
 ; Menu
 TraySetIcon(disabledIcon)
 A_TrayMenu.Delete()
 A_TrayMenu.Add("Enabled", (*) => ToggleEnabled())
 A_TrayMenu.Add("Reload Script", (*) => Reload())
-A_TrayMenu.Add("Reveal in File Explorer", (*) => Run(A_ScriptDir))
+A_TrayMenu.Add()
+A_TrayMenu.Add("Open Script Folder", (*) => Run(A_ScriptDir))
+A_TrayMenu.Add("Open Startup Folder", (*) => Run(startupDir))
 A_TrayMenu.Add()
 A_TrayMenu.Add("Exit", (*) => ExitApp())
 A_TrayMenu.Default := "Enabled"
