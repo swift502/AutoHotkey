@@ -8,7 +8,6 @@ disabledIcon := A_ScriptDir "\assets\disabled.png"
 startupDir := EnvGet("AppData") "\Microsoft\Windows\Start Menu\Programs\Startup"
 
 ; Menu
-TraySetIcon(disabledIcon)
 A_TrayMenu.Delete()
 A_TrayMenu.Add("Enabled", (*) => ToggleEnabled())
 A_TrayMenu.Add("Reload Script", (*) => Reload())
@@ -18,9 +17,6 @@ A_TrayMenu.Add("Open Startup Folder", (*) => Run(startupDir))
 A_TrayMenu.Add()
 A_TrayMenu.Add("Exit", (*) => ExitApp())
 A_TrayMenu.Default := "Enabled"
-
-; Hotkeys
-#Space::ToggleEnabled()
 
 ; Input
 ih := InputHook("L1 V")
@@ -55,12 +51,28 @@ for k, v in Table.Clone()
     Table[StrUpper(k)] := StrUpper(v)
 }
 
+; Functions
 ToggleEnabled()
 {
+    SetEnabled(!isEnabled)
+}
+
+SetEnabled(value)
+{
     global isEnabled
-    isEnabled := !isEnabled
-    TraySetIcon(isEnabled ? enabledIcon : disabledIcon)
-    A_TrayMenu.ToggleCheck("Enabled")
+    isEnabled := value
+    SetScrollLockState(isEnabled)
+
+    if (isEnabled)
+    {
+        TraySetIcon(enabledIcon)
+        A_TrayMenu.Check("Enabled")
+    }
+    else
+    {
+        TraySetIcon(disabledIcon)
+        A_TrayMenu.Uncheck("Enabled")
+    }
 }
 
 ResetState(*)
@@ -70,6 +82,12 @@ ResetState(*)
     lastTime := A_TickCount
     sequenceChar := ""
 }
+
+; Hotkeys
+#Space::ToggleEnabled()
+
+; Init
+SetEnabled(false)
 
 Loop
 {
