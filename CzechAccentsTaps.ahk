@@ -102,8 +102,18 @@ Loop
 
     if ((time - lastTime) <= tapInterval && inputChar == lastInputChar && Table.Has(sequenceChar))
     {
-        sequenceChar := Table[sequenceChar]
-        Send("{Blind}{Backspace 2}{Text}" sequenceChar)
+        nextVariant := Table[sequenceChar]
+
+        if (nextVariant == lastInputChar)
+        {
+            Send("{Blind}{Backspace 2}{Text}" lastInputChar lastInputChar)
+            sequenceChar := lastInputChar
+        }
+        else
+        {
+            Send("{Blind}{Backspace 2}{Text}" nextVariant)
+            sequenceChar := nextVariant
+        }
     }
     else
     {
