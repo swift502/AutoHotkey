@@ -2,7 +2,7 @@
 
 ; Config
 A_IconTip := "Czech Accents"
-tapInterval := 500
+tapInterval := 650 ; Close to cursor blink rate, so it can be used as an indicator
 enabledIcon := A_ScriptDir "\assets\enabled.png"
 disabledIcon := A_ScriptDir "\assets\disabled.png"
 startupDir := EnvGet("AppData") "\Microsoft\Windows\Start Menu\Programs\Startup"
