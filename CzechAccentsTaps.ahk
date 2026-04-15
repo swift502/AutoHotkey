@@ -20,7 +20,7 @@ A_TrayMenu.Default := "Enabled"
 ; Input
 editKeys := "{Backspace}{Delete}{Insert}"
 navKeys := "{Left}{Right}{Up}{Down}{Home}{End}{PgUp}{PgDn}"
-modKeys := "{LCtrl}{RCtrl}{LAlt}{RAlt}{LShift}{RShift}{LWin}{RWin}{AppsKey}"
+modKeys := "{LCtrl}{RCtrl}{LAlt}{RAlt}{LShift}{RShift}{LWin}{RWin}"
 funcKeys := "{F1}{F2}{F3}{F4}{F5}{F6}{F7}{F8}{F9}{F10}{F11}{F12}"
 
 ih := InputHook("L1 V")
