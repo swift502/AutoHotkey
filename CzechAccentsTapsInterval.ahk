@@ -2,6 +2,7 @@
 
 ; Config
 A_IconTip := "Czech Accents"
+tapInterval := 650 ; Close to cursor blink rate, so it can be used as an indicator
 enabledIcon := A_ScriptDir "\assets\enabled.png"
 disabledIcon := A_ScriptDir "\assets\disabled.png"
 startupDir := EnvGet("AppData") "\Microsoft\Windows\Start Menu\Programs\Startup"
@@ -25,6 +26,7 @@ ih.OnKeyDown := ResetState
 ; State
 isEnabled := false
 lastInputChar := ""
+lastTime := 0
 sequenceChar := ""
 
 ; Mapping
@@ -76,15 +78,13 @@ SetEnabled(value)
 
 ResetState(*)
 {
-    global lastInputChar, sequenceChar
+    global lastInputChar, lastTime, sequenceChar
     lastInputChar := ""
+    lastTime := A_TickCount
     sequenceChar := ""
 }
 
 ; Hotkeys
-~*LButton::ResetState()
-~*RButton::ResetState()
-~*MButton::ResetState()
 #Space::ToggleEnabled()
 
 ; Init
@@ -99,8 +99,9 @@ Loop
         continue
 
     inputChar := ih.Input
+    time := A_TickCount
 
-    if (inputChar == lastInputChar && Table.Has(sequenceChar))
+    if ((time - lastTime) <= tapInterval && inputChar == lastInputChar && Table.Has(sequenceChar))
     {
         nextVariant := Table[sequenceChar]
 
@@ -121,4 +122,5 @@ Loop
     }
 
     lastInputChar := inputChar
+    lastTime := time
 }
