@@ -35,7 +35,7 @@ consecutiveTaps := 0
 currentOutputLen := 0
 
 ; Mapping
-Accents := [
+Mapping := [
     ["a", "á"],
     ["c", "č"],
     ["d", "ď"],
@@ -52,8 +52,8 @@ Accents := [
     ["~", "°"]
 ]
 
-Table := Map()
-for _, arr in Accents
+MappingTable := Map()
+for _, arr in Mapping
 {
     upperArr := []
     for _, char in arr
@@ -61,8 +61,8 @@ for _, arr in Accents
         
     for _, char in arr
     {
-        Table[char] := arr
-        Table[StrUpper(char)] := upperArr
+        MappingTable[char] := arr
+        MappingTable[StrUpper(char)] := upperArr
     }
 }
 
@@ -117,11 +117,11 @@ Loop
 
     inputChar := ih.Input
 
-    if (inputChar == lastInputChar && Table.Has(inputChar))
+    if (inputChar == lastInputChar && MappingTable.Has(inputChar))
     {
         consecutiveTaps++
         
-        cycle := Table[inputChar]
+        cycle := MappingTable[inputChar]
         cycleIndex := Mod(consecutiveTaps - 1, cycle.Length) + 1
         
         charToRepeat := cycle[cycleIndex]
