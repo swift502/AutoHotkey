@@ -28,6 +28,7 @@ ih.KeyOpt(editKeys navKeys modKeys funcKeys, "N")
 ih.OnKeyDown := ResetState
 
 ; State
+sequenceChain := 2
 isEnabled := false
 lastInputChar := ""
 consecutiveTaps := 0
@@ -132,6 +133,12 @@ Loop
 
         Send("{Blind}{Backspace " currentOutputLen + 1 "}{Text}" charsToType)
         currentOutputLen := repeatCount
+
+        if (repeatCount >= sequenceChain && cycleIndex == cycle.Length)
+        {
+            ResetState()
+            continue
+        }
     }
     else
     {
