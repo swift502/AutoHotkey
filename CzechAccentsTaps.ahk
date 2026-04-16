@@ -30,7 +30,8 @@ ih.OnKeyDown := ResetState
 ; State
 isEnabled := false
 lastInputChar := ""
-sequenceChar := ""
+consecutiveTaps := 0
+currentOutputLen := 0
 
 ; Mapping
 Table := Map(
@@ -81,9 +82,10 @@ SetEnabled(value)
 
 ResetState(*)
 {
-    global lastInputChar, sequenceChar
+    global lastInputChar, consecutiveTaps, currentOutputLen
     lastInputChar := ""
-    sequenceChar := ""
+    consecutiveTaps := 0
+    currentOutputLen := 0
 }
 
 ; Hotkeys
@@ -105,24 +107,39 @@ Loop
 
     inputChar := ih.Input
 
-    if (inputChar == lastInputChar && Table.Has(sequenceChar))
+    if (inputChar == lastInputChar && Table.Has(inputChar))
     {
-        nextVariant := Table[sequenceChar]
+        consecutiveTaps++
+        
+        cycle := [inputChar]
+        curr := Table[inputChar]
+        while (curr != inputChar && curr != "") {
+            cycle.Push(curr)
+            curr := Table.Has(curr) ? Table[curr] : ""
+            if (cycle.Length > 10)
+                break
+        }
+        
+        cycleIndex := Mod(consecutiveTaps - 1, cycle.Length) + 1
+        charToRepeat := cycle[cycleIndex]
+        repeatCount := Ceil(consecutiveTaps / cycle.Length)
 
-        if (nextVariant == lastInputChar)
+        backspaceCount := currentOutputLen + 1
+        Send("{Blind}{Backspace " backspaceCount "}")
+        
+        charsToType := ""
+        Loop repeatCount
         {
-            Send("{Blind}{Backspace 2}{Text}" lastInputChar lastInputChar)
-            sequenceChar := lastInputChar
+            charsToType .= charToRepeat
         }
-        else
-        {
-            Send("{Blind}{Backspace 2}{Text}" nextVariant)
-            sequenceChar := nextVariant
-        }
+        
+        Send("{Text}" charsToType)
+        currentOutputLen := StrLen(charsToType)
     }
     else
     {
-        sequenceChar := inputChar
+        consecutiveTaps := 1
+        currentOutputLen := 1
     }
 
     lastInputChar := inputChar
