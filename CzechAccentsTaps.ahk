@@ -34,26 +34,35 @@ consecutiveTaps := 0
 currentOutputLen := 0
 
 ; Mapping
-Table := Map(
-    "a", "á",   "á", "a",
-    "c", "č",   "č", "c",
-    "d", "ď",   "ď", "d",
-    "e", "ě",   "ě", "é",   "é", "e",
-    "i", "í",   "í", "i",
-    "n", "ň",   "ň", "n",
-    "o", "ó",   "ó", "o",
-    "r", "ř",   "ř", "r",
-    "s", "š",   "š", "s",
-    "t", "ť",   "ť", "t",
-    "u", "ů",   "ů", "ú",   "ú", "u",
-    "y", "ý",   "ý", "y",
-    "z", "ž",   "ž", "z",
-    "~", "°",   "°", "~"
-)
+Accents := [
+    ["a", "á"],
+    ["c", "č"],
+    ["d", "ď"],
+    ["e", "ě", "é"],
+    ["i", "í"],
+    ["n", "ň"],
+    ["o", "ó"],
+    ["r", "ř"],
+    ["s", "š"],
+    ["t", "ť"],
+    ["u", "ů", "ú"],
+    ["y", "ý"],
+    ["z", "ž"],
+    ["~", "°"]
+]
 
-for k, v in Table.Clone()
+Table := Map()
+for _, arr in Accents
 {
-    Table[StrUpper(k)] := StrUpper(v)
+    upperArr := []
+    for _, char in arr
+        upperArr.Push(StrUpper(char))
+        
+    for _, char in arr
+    {
+        Table[char] := arr
+        Table[StrUpper(char)] := upperArr
+    }
 }
 
 ; Functions
@@ -111,14 +120,7 @@ Loop
     {
         consecutiveTaps++
         
-        cycle := [inputChar]
-        curr := Table[inputChar]
-        while (curr != inputChar && curr != "") {
-            cycle.Push(curr)
-            curr := Table.Has(curr) ? Table[curr] : ""
-            if (cycle.Length > 10)
-                break
-        }
+        cycle := Table[inputChar]
         
         cycleIndex := Mod(consecutiveTaps - 1, cycle.Length) + 1
         charToRepeat := cycle[cycleIndex]
