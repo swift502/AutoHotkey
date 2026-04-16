@@ -121,22 +121,17 @@ Loop
         consecutiveTaps++
         
         cycle := Table[inputChar]
-        
         cycleIndex := Mod(consecutiveTaps - 1, cycle.Length) + 1
+        
         charToRepeat := cycle[cycleIndex]
         repeatCount := Ceil(consecutiveTaps / cycle.Length)
 
-        backspaceCount := currentOutputLen + 1
-        Send("{Blind}{Backspace " backspaceCount "}")
-        
         charsToType := ""
         Loop repeatCount
-        {
             charsToType .= charToRepeat
-        }
-        
-        Send("{Text}" charsToType)
-        currentOutputLen := StrLen(charsToType)
+
+        Send("{Blind}{Backspace " currentOutputLen + 1 "}{Text}" charsToType)
+        currentOutputLen := repeatCount
     }
     else
     {
