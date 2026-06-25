@@ -1,0 +1,744 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Czech Accent Key Sequence Visualizer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-top: #f3f9ef;
+      --bg-bottom: #e5efff;
+      --panel: #fffdf8;
+      --ink: #1d2330;
+      --muted: #536075;
+      --accent: #d9652f;
+      --accent-2: #0c8f7f;
+      --key-face: #f7f3ea;
+      --key-side: #d4cec2;
+      --key-border: #b9b09e;
+      --shadow: 0 20px 50px rgba(15, 23, 42, 0.12);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Space Grotesk", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 15% 10%, rgba(217, 101, 47, 0.15), transparent 35%),
+        radial-gradient(circle at 90% 90%, rgba(12, 143, 127, 0.2), transparent 40%),
+        linear-gradient(165deg, var(--bg-top), var(--bg-bottom));
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .frame {
+      width: min(980px, 100%);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 253, 248, 0.95));
+      border: 1px solid rgba(185, 176, 158, 0.45);
+      border-radius: calc(var(--radius) + 4px);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(6px);
+      overflow: hidden;
+      animation: rise 520ms ease-out;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.985);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .header {
+      padding: 28px 30px 20px;
+      border-bottom: 1px solid rgba(185, 176, 158, 0.35);
+      background: linear-gradient(120deg, rgba(255, 255, 255, 0.85), rgba(243, 249, 239, 0.75));
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "Fraunces", serif;
+      font-size: clamp(1.45rem, 2.2vw, 2rem);
+      letter-spacing: 0.02em;
+    }
+
+    .sub {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    .content {
+      padding: 24px 30px 30px;
+      display: grid;
+      gap: 22px;
+    }
+
+    .input-row {
+      display: grid;
+      gap: 10px;
+    }
+
+    label {
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+      color: #2a3142;
+    }
+
+    input {
+      border: 1px solid rgba(185, 176, 158, 0.8);
+      border-radius: 12px;
+      padding: 14px 14px;
+      font-size: 1.04rem;
+      font-family: "Space Grotesk", sans-serif;
+      background: #fff;
+      color: var(--ink);
+      transition: border-color 140ms ease, box-shadow 140ms ease;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--accent-2);
+      box-shadow: 0 0 0 4px rgba(12, 143, 127, 0.13);
+    }
+
+    .panel {
+      border: 1px solid rgba(185, 176, 158, 0.45);
+      border-radius: var(--radius);
+      background: var(--panel);
+      padding: 18px;
+    }
+
+    .panel-title {
+      margin: 0 0 12px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .keys {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      min-height: 72px;
+      align-items: flex-start;
+    }
+
+    .key {
+      position: relative;
+      min-width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      border: 1px solid var(--key-border);
+      background: linear-gradient(180deg, #fffaf0, var(--key-face));
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      text-transform: lowercase;
+      color: #20283b;
+      box-shadow: 0 6px 0 var(--key-side), 0 10px 18px rgba(0, 0, 0, 0.09);
+      transform: translateY(0);
+      animation: key-in 280ms ease both;
+    }
+
+    .token {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .plus {
+      font-weight: 700;
+      color: #51607a;
+      transform: translateY(-1px);
+    }
+
+    .key.mod {
+      min-width: 74px;
+      font-size: 0.78rem;
+      text-transform: none;
+      letter-spacing: 0.03em;
+      background: linear-gradient(180deg, #e9f6ff, #d8ebfb);
+      border-color: #8fb7d1;
+      box-shadow: 0 6px 0 #a8c7da, 0 10px 18px rgba(0, 0, 0, 0.09);
+    }
+
+    .key.hold {
+      background:
+        repeating-linear-gradient(
+          -45deg,
+          rgba(12, 143, 127, 0.13),
+          rgba(12, 143, 127, 0.13) 6px,
+          rgba(255, 250, 240, 0.95) 6px,
+          rgba(255, 250, 240, 0.95) 12px
+        ),
+        linear-gradient(180deg, #fffaf0, var(--key-face));
+      border-color: #6ba99f;
+    }
+
+    @keyframes key-in {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .key .count {
+      position: absolute;
+      top: 5px;
+      right: 6px;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      line-height: 1;
+      border: 1px solid rgba(255, 255, 255, 0.75);
+    }
+
+    .key .count.hold-count {
+      background: var(--accent-2);
+    }
+
+    .hs-combo {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hs-keys {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .hs-keys .key {
+      background: linear-gradient(180deg, #fdf1ff, #f3e3fb);
+      border-color: #b58fce;
+      box-shadow: 0 6px 0 #c9aede, 0 10px 18px rgba(0, 0, 0, 0.09);
+    }
+
+    .hs-link {
+      position: relative;
+      z-index: 2;
+      margin: 0 -8px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #9a5cc6;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      border: 2px solid var(--panel);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+    }
+
+    .result {
+      margin-top: 6px;
+      font-family: "Fraunces", serif;
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      letter-spacing: 0.02em;
+      color: #152139;
+      min-height: 48px;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin: 0;
+    }
+
+    .err {
+      color: #b93f22;
+      font-weight: 500;
+      min-height: 1.2em;
+      margin: 0;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 10px;
+    }
+
+    .demo-btn {
+      border: 1px solid rgba(185, 176, 158, 0.9);
+      border-radius: 12px;
+      background: linear-gradient(180deg, #ffffff, #f8f4ea);
+      text-align: left;
+      padding: 12px;
+      cursor: pointer;
+      transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+      font-family: "Space Grotesk", sans-serif;
+    }
+
+    .demo-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(20, 33, 57, 0.1);
+      border-color: #9eb4c8;
+    }
+
+    .demo-name {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #1f2b41;
+      margin-bottom: 6px;
+    }
+
+    .demo-seq {
+      font-size: 0.82rem;
+      color: #4f5c74;
+      margin-bottom: 5px;
+      word-break: break-word;
+    }
+
+    .demo-out {
+      font-family: "Fraunces", serif;
+      color: #223149;
+      font-size: 1.1rem;
+    }
+
+    @media (max-width: 700px) {
+      .header,
+      .content {
+        padding: 18px;
+      }
+
+      .keys {
+        gap: 10px;
+      }
+
+      .key {
+        min-width: 50px;
+        height: 50px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="frame">
+    <header class="header">
+      <h1>Czech Accent Key Sequence</h1>
+      <p class="sub">Type a sequence like <strong>v y s4 i2</strong> to render keycaps and see the output text.</p>
+    </header>
+
+    <section class="content">
+      <div class="input-row">
+        <label for="sequence">Sequence</label>
+        <input id="sequence" type="text" value="v y s4 i2" spellcheck="false" aria-describedby="sequence-help" />
+        <p id="sequence-help" class="hint">Tokens: tap s4, hold s~2, pre RAlt+e, post a+RAlt, hotstring hs(cv). Separate tokens by spaces.</p>
+        <p id="error" class="err" aria-live="polite"></p>
+      </div>
+
+      <div class="panel">
+        <h2 class="panel-title">Key Sequence</h2>
+        <div id="keys" class="keys"></div>
+      </div>
+
+      <div class="panel">
+        <h2 class="panel-title">Output</h2>
+        <div id="output" class="result"></div>
+      </div>
+
+      <div class="panel">
+        <h2 class="panel-title">Method Demos</h2>
+        <div id="demos" class="demo-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const tapMapping = {
+      a: ["a", "á"],
+      c: ["c", "č"],
+      d: ["d", "ď"],
+      e: ["e", "ě", "é"],
+      i: ["i", "í"],
+      n: ["n", "ň"],
+      o: ["o", "ó"],
+      r: ["r", "ř"],
+      s: ["s", "š"],
+      t: ["t", "ť"],
+      u: ["u", "ů", "ú"],
+      y: ["y", "ý"],
+      z: ["z", "ž"],
+      "~": ["~", "°"]
+    };
+
+    const preRAltMap = {
+      a: "á",
+      c: "č",
+      d: "ď",
+      e: "ě",
+      i: "í",
+      n: "ň",
+      o: "ó",
+      r: "ř",
+      s: "š",
+      t: "ť",
+      u: "ú",
+      y: "ý",
+      z: "ž",
+      ";": "ů",
+      "'": "é"
+    };
+
+    const hotstringMap = {
+      as: "á",
+      cv: "č",
+      df: "ď",
+      er: "ě",
+      io: "í",
+      nm: "ň",
+      op: "ó",
+      rt: "ř",
+      sd: "š",
+      ty: "ť",
+      ui: "ů",
+      yu: "ý",
+      zx: "ž",
+      we: "é"
+    };
+
+    const cycleNext = buildCycleMap(tapMapping);
+
+    const sequenceInput = document.getElementById("sequence");
+    const keysEl = document.getElementById("keys");
+    const outputEl = document.getElementById("output");
+    const errorEl = document.getElementById("error");
+    const demosEl = document.getElementById("demos");
+
+    const methodDemos = [
+      {
+        name: "Taps (CzechAccentsTaps)",
+        sequence: "v y s4 i2",
+        expected: "vyšší"
+      },
+      {
+        name: "Hold (CzechAccentsHold)",
+        sequence: "v y s~1 s~1 i~1",
+        expected: "vyšší"
+      },
+      {
+        name: "Pre RAlt (CzechAccentsPre)",
+        sequence: "v y RAlt+s RAlt+s RAlt+i",
+        expected: "vyšší"
+      },
+      {
+        name: "Post RAlt (CzechAccentsPost)",
+        sequence: "v y s+RAlt s+RAlt i+RAlt",
+        expected: "vyšší"
+      },
+      {
+        name: "Hotstrings (CzechAccentsHotstrings)",
+        sequence: "v y hs(sd) hs(sd) hs(io)",
+        expected: "vyšší"
+      }
+    ];
+
+    function buildCycleMap(mapping) {
+      const next = {};
+
+      for (const variants of Object.values(mapping)) {
+        for (let i = 0; i < variants.length; i++) {
+          const cur = variants[i];
+          const nxt = variants[(i + 1) % variants.length];
+          next[cur] = nxt;
+          next[cur.toUpperCase()] = nxt.toUpperCase();
+        }
+      }
+
+      return next;
+    }
+
+    function parseToken(token) {
+      let m = token.match(/^hs\((.{2})\)$/iu);
+      if (m) {
+        return { type: "hotstring", combo: m[1] };
+      }
+
+      m = token.match(/^ralt\+(.{1})$/iu);
+      if (m) {
+        return { type: "pre-ralt", key: m[1] };
+      }
+
+      m = token.match(/^(.{1})((?:\+ralt)+)$/iu);
+      if (m) {
+        const presses = (m[2].match(/\+ralt/giu) || []).length;
+        return { type: "post-ralt", key: m[1], presses };
+      }
+
+      m = token.match(/^(.{1})~(\d+)$/u);
+      if (m) {
+        const intervals = Number(m[2]);
+        if (!Number.isInteger(intervals) || intervals < 1) {
+          return null;
+        }
+        return { type: "hold", key: m[1], intervals };
+      }
+
+      m = token.match(/^(.{1})(\d+)?$/u);
+      if (m) {
+        const count = m[2] ? Number(m[2]) : 1;
+        if (!Number.isInteger(count) || count < 1) {
+          return null;
+        }
+        return { type: "tap", key: m[1], count };
+      }
+
+      return null;
+    }
+
+    function applyTapOutput(key, count) {
+      const variants = tapMapping[key.toLowerCase()];
+      if (!variants) {
+        return key.repeat(count);
+      }
+
+      const cycleLen = variants.length;
+      const cycleIndex = ((count - 1) % cycleLen);
+      const repeatCount = Math.ceil(count / cycleLen);
+      const selected = variants[cycleIndex];
+
+      return selected.repeat(repeatCount);
+    }
+
+    function toggleOnce(char) {
+      return cycleNext[char] || char;
+    }
+
+    function applyHoldOutput(key, intervals) {
+      let out = key;
+      for (let i = 0; i < intervals; i++) {
+        out = toggleOnce(out);
+      }
+      return out;
+    }
+
+    function applyPreRAltOutput(key) {
+      const mapped = preRAltMap[key.toLowerCase()];
+      if (!mapped) {
+        return key;
+      }
+      return key === key.toUpperCase() ? mapped.toUpperCase() : mapped;
+    }
+
+    function applyPostRAltOutput(key, presses) {
+      let out = key;
+      for (let i = 0; i < presses; i++) {
+        out = toggleOnce(out);
+      }
+      return out;
+    }
+
+    function applyHotstringOutput(combo) {
+      const lower = combo.toLowerCase();
+      const mapped = hotstringMap[lower];
+      if (!mapped) {
+        return combo;
+      }
+
+      const accentPos = lower === "we" ? 1 : 0;
+      const sourceChar = combo[accentPos] || combo[0];
+      return sourceChar === sourceChar.toUpperCase() ? mapped.toUpperCase() : mapped;
+    }
+
+    function createKey(label, classes = []) {
+      const keycap = document.createElement("div");
+      keycap.className = ["key", ...classes].join(" ");
+      const text = document.createElement("span");
+      text.textContent = label;
+      keycap.appendChild(text);
+      return keycap;
+    }
+
+    function addCountBadge(keycap, text, className = "") {
+      const badge = document.createElement("span");
+      badge.className = className ? "count " + className : "count";
+      badge.textContent = text;
+      keycap.appendChild(badge);
+    }
+
+    function renderToken(parsed) {
+      const tokenEl = document.createElement("div");
+      tokenEl.className = "token";
+
+      if (parsed.type === "tap") {
+        const keycap = createKey(parsed.key);
+        if (parsed.count > 1) {
+          addCountBadge(keycap, String(parsed.count));
+        }
+        tokenEl.appendChild(keycap);
+        return tokenEl;
+      }
+
+      if (parsed.type === "hold") {
+        const keycap = createKey(parsed.key, ["hold"]);
+        addCountBadge(keycap, String(parsed.intervals), "hold-count");
+        tokenEl.appendChild(keycap);
+        return tokenEl;
+      }
+
+      if (parsed.type === "pre-ralt") {
+        tokenEl.appendChild(createKey("RAlt", ["mod"]));
+        const plus = document.createElement("span");
+        plus.className = "plus";
+        plus.textContent = "+";
+        tokenEl.appendChild(plus);
+        tokenEl.appendChild(createKey(parsed.key));
+        return tokenEl;
+      }
+
+      if (parsed.type === "post-ralt") {
+        tokenEl.appendChild(createKey(parsed.key));
+        for (let i = 0; i < parsed.presses; i++) {
+          const plus = document.createElement("span");
+          plus.className = "plus";
+          plus.textContent = "+";
+          tokenEl.appendChild(plus);
+          tokenEl.appendChild(createKey("RAlt", ["mod"]));
+        }
+        return tokenEl;
+      }
+
+      if (parsed.type === "hotstring") {
+        const left = parsed.combo[0] || "?";
+        const right = parsed.combo[1] || "?";
+
+        const combo = document.createElement("div");
+        combo.className = "hs-combo";
+
+        const row = document.createElement("div");
+        row.className = "hs-keys";
+        row.appendChild(createKey(left));
+
+        const link = document.createElement("span");
+        link.className = "hs-link";
+        link.textContent = "+";
+        row.appendChild(link);
+
+        row.appendChild(createKey(right));
+        combo.appendChild(row);
+
+        tokenEl.appendChild(combo);
+        return tokenEl;
+      }
+
+      return tokenEl;
+    }
+
+    function tokenToOutput(parsed) {
+      if (parsed.type === "tap") {
+        return applyTapOutput(parsed.key, parsed.count);
+      }
+      if (parsed.type === "hold") {
+        return applyHoldOutput(parsed.key, parsed.intervals);
+      }
+      if (parsed.type === "pre-ralt") {
+        return applyPreRAltOutput(parsed.key);
+      }
+      if (parsed.type === "post-ralt") {
+        return applyPostRAltOutput(parsed.key, parsed.presses);
+      }
+      if (parsed.type === "hotstring") {
+        return applyHotstringOutput(parsed.combo);
+      }
+      return "";
+    }
+
+    function render() {
+      const raw = sequenceInput.value.trim();
+      keysEl.innerHTML = "";
+      outputEl.textContent = "";
+      errorEl.textContent = "";
+
+      if (!raw) {
+        return;
+      }
+
+      const tokens = raw.split(/\s+/);
+      let out = "";
+
+      for (const token of tokens) {
+        const parsed = parseToken(token);
+        if (!parsed) {
+          errorEl.textContent = "Invalid token: " + token + ". Use s4, s~2, RAlt+e, a+RAlt, or hs(cv).";
+          return;
+        }
+
+        keysEl.appendChild(renderToken(parsed));
+        out += tokenToOutput(parsed);
+      }
+
+      outputEl.textContent = out;
+    }
+
+    function renderDemos() {
+      demosEl.innerHTML = "";
+
+      for (const demo of methodDemos) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "demo-btn";
+
+        const title = document.createElement("div");
+        title.className = "demo-name";
+        title.textContent = demo.name;
+
+        const seq = document.createElement("div");
+        seq.className = "demo-seq";
+        seq.textContent = demo.sequence;
+
+        const out = document.createElement("div");
+        out.className = "demo-out";
+        out.textContent = "→ " + demo.expected;
+
+        button.appendChild(title);
+        button.appendChild(seq);
+        button.appendChild(out);
+
+        button.addEventListener("click", () => {
+          sequenceInput.value = demo.sequence;
+          render();
+          sequenceInput.focus();
+        });
+
+        demosEl.appendChild(button);
+      }
+    }
+
+    sequenceInput.addEventListener("input", render);
+    renderDemos();
+    render();
+  </script>
+</body>
+</html>
