@@ -9,18 +9,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg-top: #f7fbff;
-      --bg-bottom: #edf4ff;
-      --panel: #ffffff;
-      --ink: #141f33;
-      --muted: #637086;
-      --accent: #f26b3a;
-      --accent-2: #169786;
-      --key-face: #ffffff;
-      --key-border: #d3dceb;
-      --stroke: #dbe4f2;
-      --shadow: 0 26px 56px rgba(21, 37, 62, 0.12);
-      --radius: 20px;
+      --bg: #e8eaed;
+      --surface: #ffffff;
+      --ink: #20242c;
+      --muted: #7b818c;
+      --line: #e4e6ea;
+      --line-strong: #d2d5db;
+      --key-border: #d3d6dd;
+      --badge: #e07b3c;
+      --badge-hold: #2f9e6a;
+      --badge-hs: #8a5cc4;
+      --radius: 10px;
     }
 
     * {
@@ -32,177 +31,189 @@
       min-height: 100vh;
       font-family: "Manrope", "Segoe UI", sans-serif;
       color: var(--ink);
-      background:
-        radial-gradient(circle at 12% 12%, rgba(242, 107, 58, 0.16), transparent 38%),
-        radial-gradient(circle at 86% 20%, rgba(67, 121, 232, 0.16), transparent 42%),
-        radial-gradient(circle at 80% 86%, rgba(22, 151, 134, 0.14), transparent 45%),
-        linear-gradient(155deg, var(--bg-top), var(--bg-bottom));
-      display: grid;
-      place-items: center;
-      padding: 24px;
+      background: var(--bg);
+      display: flex;
+      justify-content: center;
+      padding: 40px 24px 56px;
     }
 
-    .frame {
-      width: min(1020px, 100%);
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.9));
-      border: 1px solid rgba(219, 228, 242, 0.9);
-      border-radius: calc(var(--radius) + 6px);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
-      overflow: hidden;
-      animation: rise 520ms ease-out;
+    .shell {
+      width: min(880px, 100%);
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
     }
 
-    @keyframes rise {
-      from {
-        opacity: 0;
-        transform: translateY(18px) scale(0.985);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    .header {
-      padding: 30px 34px 22px;
-      border-bottom: 1px solid var(--stroke);
-      background:
-        radial-gradient(circle at 15% 15%, rgba(242, 107, 58, 0.11), transparent 42%),
-        linear-gradient(120deg, rgba(255, 255, 255, 0.94), rgba(242, 247, 255, 0.9));
+    /* ---------- Header (light, secondary) ---------- */
+    .head {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
     h1 {
       margin: 0;
       font-family: "Sora", sans-serif;
-      font-size: clamp(1.5rem, 2.35vw, 2.12rem);
+      font-size: clamp(1.3rem, 2vw, 1.7rem);
+      font-weight: 700;
       letter-spacing: 0.01em;
     }
 
     .sub {
-      margin: 8px 0 0;
+      margin: 0;
       color: var(--muted);
-      font-size: 0.98rem;
-      max-width: 64ch;
+      font-size: 0.94rem;
       line-height: 1.45;
     }
 
-    .content {
-      padding: 26px 34px 34px;
-      display: grid;
-      gap: 18px;
+    /* ---------- Controls (clearly secondary) ---------- */
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
 
-    .input-row {
-      display: grid;
-      gap: 10px;
-    }
-
-    label {
+    .controls label {
+      font-size: 0.74rem;
       font-weight: 700;
-      font-size: 0.95rem;
-      letter-spacing: 0.02em;
-      color: #27344d;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
     }
 
     input {
-      border: 1px solid var(--stroke);
-      border-radius: 14px;
-      padding: 14px 15px;
-      font-size: 1.03rem;
+      border: 1px solid var(--line-strong);
+      border-radius: 8px;
+      padding: 12px 13px;
+      font-size: 0.98rem;
       font-family: "Manrope", sans-serif;
-      background: linear-gradient(180deg, #ffffff, #fbfdff);
+      background: var(--surface);
       color: var(--ink);
-      transition: border-color 140ms ease, box-shadow 140ms ease;
+      transition: border-color 140ms ease;
     }
 
     input:focus {
       outline: none;
-      border-color: var(--accent-2);
-      box-shadow: 0 0 0 4px rgba(22, 151, 134, 0.14);
+      border-color: #9aa0ac;
     }
 
-    .panel {
-      border: 1px solid var(--stroke);
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, var(--panel), #fbfdff);
-      padding: 18px 18px 17px;
+    .hint {
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.6;
+      margin: 0;
     }
 
-    .panel-title {
-      margin: 0 0 12px;
-      font-size: 0.9rem;
+    .hint code {
+      font-family: "Manrope", monospace;
       font-weight: 700;
-      letter-spacing: 0.06em;
+      font-size: 0.82rem;
+      color: #565c66;
+      background: #eceef1;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 1px 5px;
+      white-space: nowrap;
+    }
+
+    .err {
+      color: #b4503a;
+      font-weight: 600;
+      font-size: 0.86rem;
+      min-height: 1.2em;
+      margin: 0;
+    }
+
+    /* ---------- Stage (the focus / screenshot target) ---------- */
+    .stage {
+      background: var(--surface);
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      box-shadow: 0 1px 0 #f4f5f7 inset, 6px 6px 0 rgba(32, 36, 44, 0.10);
+      overflow: hidden;
+    }
+
+    .stage-block {
+      padding: 24px 26px;
+    }
+
+    .stage-divider {
+      height: 1px;
+      background: var(--line);
+    }
+
+    .block-title {
+      margin: 0 0 16px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: #6b768b;
+      color: #9298a3;
     }
 
     .keys {
       display: flex;
       flex-wrap: wrap;
-      gap: 11px;
-      min-height: 72px;
-      align-items: flex-start;
+      gap: 14px;
+      min-height: 64px;
+      align-items: center;
     }
 
     .key {
       position: relative;
-      min-width: 56px;
-      height: 56px;
-      border-radius: 13px;
+      min-width: 60px;
+      height: 60px;
+      border-radius: 7px;
       border: 1px solid var(--key-border);
-      background: linear-gradient(180deg, #ffffff, #f4f8ff);
+      background: #fbfbfc;
       display: grid;
       place-items: center;
       font-weight: 700;
-      font-size: 1.02rem;
+      font-size: 1.12rem;
       text-transform: lowercase;
-      color: #20304a;
-      box-shadow: 0 6px 14px rgba(22, 40, 71, 0.11);
-      transform: translateY(0);
-      animation: key-in 280ms ease both;
+      color: #2a2f38;
+      box-shadow: 0 2px 0 #d7dade;
+      animation: key-in 240ms ease both;
     }
 
     .token {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 7px;
     }
 
     .plus {
       font-weight: 700;
-      color: #51607a;
-      transform: translateY(-1px);
+      color: #aab0ba;
+      font-size: 0.95rem;
     }
 
     .key.mod {
       min-width: 72px;
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       text-transform: none;
-      letter-spacing: 0.03em;
-      background: linear-gradient(180deg, #edf6ff, #dcebff);
-      border-color: #9ebfde;
-      box-shadow: 0 6px 14px rgba(35, 84, 130, 0.15);
+      letter-spacing: 0.04em;
+      background: #e8effb;
+      border-color: #a3bee6;
+      color: #37588f;
     }
 
     .key.hold {
       background:
         repeating-linear-gradient(
           -45deg,
-          rgba(22, 151, 134, 0.13),
-          rgba(22, 151, 134, 0.13) 6px,
-          rgba(255, 255, 255, 0.95) 6px,
-          rgba(255, 255, 255, 0.95) 12px
-        ),
-        linear-gradient(180deg, #ffffff, #f1fbf9);
-      border-color: #7cbfb5;
+          rgba(47, 158, 106, 0.20),
+          rgba(47, 158, 106, 0.20) 5px,
+          #f1faf5 5px,
+          #f1faf5 11px
+        );
+      border-color: #8eccac;
     }
 
     @keyframes key-in {
       from {
         opacity: 0;
-        transform: translateY(8px);
+        transform: translateY(6px);
       }
       to {
         opacity: 1;
@@ -212,30 +223,28 @@
 
     .key .count {
       position: absolute;
-      top: 4px;
-      right: 5px;
-      width: 18px;
-      height: 18px;
+      top: -7px;
+      right: -7px;
+      width: 20px;
+      height: 20px;
       border-radius: 999px;
-      background: var(--accent);
+      background: var(--badge);
       color: #fff;
-      font-size: 0.7rem;
+      font-size: 0.72rem;
       font-weight: 700;
       display: grid;
       place-items: center;
       line-height: 1;
-      border: 1px solid rgba(255, 255, 255, 0.85);
+      border: 2px solid var(--surface);
     }
 
     .key .count.hold-count {
-      background: var(--accent-2);
+      background: var(--badge-hold);
     }
 
     .hs-combo {
       display: inline-flex;
-      flex-direction: column;
       align-items: center;
-      gap: 6px;
     }
 
     .hs-keys {
@@ -244,143 +253,141 @@
     }
 
     .hs-keys .key {
-      background: linear-gradient(180deg, #fbf1ff, #f3e7ff);
-      border-color: #c4a7dd;
-      box-shadow: 0 6px 14px rgba(110, 57, 153, 0.18);
+      background: #f3ecfb;
+      border-color: #c6a9e6;
+      color: #5b4685;
     }
 
     .hs-link {
       position: relative;
       z-index: 2;
-      margin: 0 -7px;
+      margin: 0 -8px;
       width: 24px;
       height: 24px;
       border-radius: 50%;
-      background: #9a5cc6;
+      background: var(--badge-hs);
       color: #fff;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 700;
       display: grid;
       place-items: center;
-      border: 2px solid #ffffff;
-      box-shadow: 0 6px 12px rgba(87, 32, 133, 0.28);
+      border: 2px solid var(--surface);
     }
 
     .result {
-      margin-top: 4px;
       font-family: "Sora", sans-serif;
-      font-size: clamp(1.45rem, 3.8vw, 2.4rem);
+      font-size: clamp(2rem, 5vw, 3.1rem);
+      font-weight: 700;
       letter-spacing: 0.01em;
-      color: #142540;
-      min-height: 48px;
-    }
-
-    .hint {
-      color: var(--muted);
-      font-size: 0.9rem;
-      line-height: 1.4;
-      margin: 0;
-    }
-
-    .err {
-      color: #bf4a2f;
-      font-weight: 500;
+      color: #1b1f27;
       min-height: 1.2em;
+      display: flex;
+      align-items: center;
+    }
+
+    /* ---------- Demos (tertiary) ---------- */
+    .demos-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .section-label {
       margin: 0;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
     }
 
     .demo-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 11px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 8px;
     }
 
     .demo-btn {
-      border: 1px solid var(--stroke);
-      border-radius: 14px;
-      background: linear-gradient(180deg, #ffffff, #f5f9ff);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: transparent;
       text-align: left;
-      padding: 13px;
+      padding: 11px 12px;
       cursor: pointer;
-      transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
+      transition: background 120ms ease, border-color 120ms ease;
       font-family: "Manrope", sans-serif;
     }
 
     .demo-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 20px rgba(30, 55, 92, 0.12);
-      border-color: #a7bdd9;
+      background: #f1f2f4;
+      border-color: var(--line-strong);
     }
 
     .demo-name {
-      font-size: 0.9rem;
+      font-size: 0.82rem;
       font-weight: 700;
-      color: #1b2d4a;
-      margin-bottom: 6px;
+      color: #4a4f59;
+      margin-bottom: 5px;
     }
 
     .demo-seq {
-      font-size: 0.82rem;
-      color: #5a6781;
-      margin-bottom: 5px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 4px;
       word-break: break-word;
+      font-variant-numeric: tabular-nums;
     }
 
     .demo-out {
       font-family: "Sora", sans-serif;
-      color: #223b62;
-      font-size: 1rem;
+      color: #2c313a;
+      font-size: 0.95rem;
     }
 
-    @media (max-width: 700px) {
-      .header,
-      .content {
-        padding: 18px;
-      }
-
-      .keys {
-        gap: 10px;
+    @media (max-width: 640px) {
+      .stage-block {
+        padding: 18px 18px;
       }
 
       .key {
-        min-width: 50px;
-        height: 50px;
-        font-size: 0.95rem;
+        min-width: 52px;
+        height: 52px;
+        font-size: 1rem;
       }
     }
   </style>
 </head>
 <body>
-  <main class="frame">
-    <header class="header">
+  <div class="shell">
+    <header class="head">
       <h1>Czech Accent Key Sequence</h1>
-      <p class="sub">Type a sequence like <strong>s2 l e3 p e2 j</strong> to render keycaps and see the output text.</p>
+      <p class="sub">Render a tap / hold / RAlt / hotstring sequence into Czech accented text.</p>
     </header>
 
-    <section class="content">
-      <div class="input-row">
-        <label for="sequence">Sequence</label>
-        <input id="sequence" type="text" value="s2 l e3 p e2 j" spellcheck="false" aria-describedby="sequence-help" />
-        <p id="sequence-help" class="hint">Tokens: tap s4, hold s~2, pre RAlt+e, post a+RAlt, hotstring hs(cv). Separate tokens by spaces.</p>
-        <p id="error" class="err" aria-live="polite"></p>
-      </div>
+    <section class="controls">
+      <label for="sequence">Sequence</label>
+      <input id="sequence" type="text" value="s2 l e3 p e2 j" spellcheck="false" aria-describedby="sequence-help" />
+      <p id="sequence-help" class="hint">Tokens: tap <code>s4</code> · hold <code>s~2</code> · pre <code>RAlt+e</code> · post <code>a+RAlt</code> · hotstring <code>hs(cv)</code></p>
+      <p id="error" class="err" aria-live="polite"></p>
+    </section>
 
-      <div class="panel">
-        <h2 class="panel-title">Key Sequence</h2>
+    <section class="stage">
+      <div class="stage-block">
+        <h2 class="block-title">Key Sequence</h2>
         <div id="keys" class="keys"></div>
       </div>
-
-      <div class="panel">
-        <h2 class="panel-title">Output</h2>
+      <div class="stage-divider"></div>
+      <div class="stage-block">
+        <h2 class="block-title">Output</h2>
         <div id="output" class="result"></div>
       </div>
-
-      <div class="panel">
-        <h2 class="panel-title">Method Demos</h2>
-        <div id="demos" class="demo-grid"></div>
-      </div>
     </section>
-  </main>
+
+    <section class="demos-wrap">
+      <h2 class="section-label">Method demos</h2>
+      <div id="demos" class="demo-grid"></div>
+    </section>
+  </div>
 
   <script>
     const tapMapping = {
