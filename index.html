@@ -6,21 +6,21 @@
   <title>Czech Accent Key Sequence Visualizer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg-top: #f3f9ef;
-      --bg-bottom: #e5efff;
-      --panel: #fffdf8;
-      --ink: #1d2330;
-      --muted: #536075;
-      --accent: #d9652f;
-      --accent-2: #0c8f7f;
-      --key-face: #f7f3ea;
-      --key-side: #d4cec2;
-      --key-border: #b9b09e;
-      --shadow: 0 20px 50px rgba(15, 23, 42, 0.12);
-      --radius: 18px;
+      --bg-top: #f7fbff;
+      --bg-bottom: #edf4ff;
+      --panel: #ffffff;
+      --ink: #141f33;
+      --muted: #637086;
+      --accent: #f26b3a;
+      --accent-2: #169786;
+      --key-face: #ffffff;
+      --key-border: #d3dceb;
+      --stroke: #dbe4f2;
+      --shadow: 0 26px 56px rgba(21, 37, 62, 0.12);
+      --radius: 20px;
     }
 
     * {
@@ -30,24 +30,25 @@
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: "Space Grotesk", "Segoe UI", sans-serif;
+      font-family: "Manrope", "Segoe UI", sans-serif;
       color: var(--ink);
       background:
-        radial-gradient(circle at 15% 10%, rgba(217, 101, 47, 0.15), transparent 35%),
-        radial-gradient(circle at 90% 90%, rgba(12, 143, 127, 0.2), transparent 40%),
-        linear-gradient(165deg, var(--bg-top), var(--bg-bottom));
+        radial-gradient(circle at 12% 12%, rgba(242, 107, 58, 0.16), transparent 38%),
+        radial-gradient(circle at 86% 20%, rgba(67, 121, 232, 0.16), transparent 42%),
+        radial-gradient(circle at 80% 86%, rgba(22, 151, 134, 0.14), transparent 45%),
+        linear-gradient(155deg, var(--bg-top), var(--bg-bottom));
       display: grid;
       place-items: center;
       padding: 24px;
     }
 
     .frame {
-      width: min(980px, 100%);
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 253, 248, 0.95));
-      border: 1px solid rgba(185, 176, 158, 0.45);
-      border-radius: calc(var(--radius) + 4px);
+      width: min(1020px, 100%);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.9));
+      border: 1px solid rgba(219, 228, 242, 0.9);
+      border-radius: calc(var(--radius) + 6px);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(6px);
+      backdrop-filter: blur(10px);
       overflow: hidden;
       animation: rise 520ms ease-out;
     }
@@ -64,28 +65,32 @@
     }
 
     .header {
-      padding: 28px 30px 20px;
-      border-bottom: 1px solid rgba(185, 176, 158, 0.35);
-      background: linear-gradient(120deg, rgba(255, 255, 255, 0.85), rgba(243, 249, 239, 0.75));
+      padding: 30px 34px 22px;
+      border-bottom: 1px solid var(--stroke);
+      background:
+        radial-gradient(circle at 15% 15%, rgba(242, 107, 58, 0.11), transparent 42%),
+        linear-gradient(120deg, rgba(255, 255, 255, 0.94), rgba(242, 247, 255, 0.9));
     }
 
     h1 {
       margin: 0;
-      font-family: "Fraunces", serif;
-      font-size: clamp(1.45rem, 2.2vw, 2rem);
-      letter-spacing: 0.02em;
+      font-family: "Sora", sans-serif;
+      font-size: clamp(1.5rem, 2.35vw, 2.12rem);
+      letter-spacing: 0.01em;
     }
 
     .sub {
       margin: 8px 0 0;
       color: var(--muted);
       font-size: 0.98rem;
+      max-width: 64ch;
+      line-height: 1.45;
     }
 
     .content {
-      padding: 24px 30px 30px;
+      padding: 26px 34px 34px;
       display: grid;
-      gap: 22px;
+      gap: 18px;
     }
 
     .input-row {
@@ -97,16 +102,16 @@
       font-weight: 700;
       font-size: 0.95rem;
       letter-spacing: 0.02em;
-      color: #2a3142;
+      color: #27344d;
     }
 
     input {
-      border: 1px solid rgba(185, 176, 158, 0.8);
-      border-radius: 12px;
-      padding: 14px 14px;
-      font-size: 1.04rem;
-      font-family: "Space Grotesk", sans-serif;
-      background: #fff;
+      border: 1px solid var(--stroke);
+      border-radius: 14px;
+      padding: 14px 15px;
+      font-size: 1.03rem;
+      font-family: "Manrope", sans-serif;
+      background: linear-gradient(180deg, #ffffff, #fbfdff);
       color: var(--ink);
       transition: border-color 140ms ease, box-shadow 140ms ease;
     }
@@ -114,14 +119,14 @@
     input:focus {
       outline: none;
       border-color: var(--accent-2);
-      box-shadow: 0 0 0 4px rgba(12, 143, 127, 0.13);
+      box-shadow: 0 0 0 4px rgba(22, 151, 134, 0.14);
     }
 
     .panel {
-      border: 1px solid rgba(185, 176, 158, 0.45);
+      border: 1px solid var(--stroke);
       border-radius: var(--radius);
-      background: var(--panel);
-      padding: 18px;
+      background: linear-gradient(180deg, var(--panel), #fbfdff);
+      padding: 18px 18px 17px;
     }
 
     .panel-title {
@@ -130,13 +135,13 @@
       font-weight: 700;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: #6b768b;
     }
 
     .keys {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 11px;
       min-height: 72px;
       align-items: flex-start;
     }
@@ -145,16 +150,16 @@
       position: relative;
       min-width: 56px;
       height: 56px;
-      border-radius: 14px;
+      border-radius: 13px;
       border: 1px solid var(--key-border);
-      background: linear-gradient(180deg, #fffaf0, var(--key-face));
+      background: linear-gradient(180deg, #ffffff, #f4f8ff);
       display: grid;
       place-items: center;
       font-weight: 700;
-      font-size: 1.1rem;
+      font-size: 1.02rem;
       text-transform: lowercase;
-      color: #20283b;
-      box-shadow: 0 6px 0 var(--key-side), 0 10px 18px rgba(0, 0, 0, 0.09);
+      color: #20304a;
+      box-shadow: 0 6px 14px rgba(22, 40, 71, 0.11);
       transform: translateY(0);
       animation: key-in 280ms ease both;
     }
@@ -172,26 +177,26 @@
     }
 
     .key.mod {
-      min-width: 74px;
+      min-width: 72px;
       font-size: 0.78rem;
       text-transform: none;
       letter-spacing: 0.03em;
-      background: linear-gradient(180deg, #e9f6ff, #d8ebfb);
-      border-color: #8fb7d1;
-      box-shadow: 0 6px 0 #a8c7da, 0 10px 18px rgba(0, 0, 0, 0.09);
+      background: linear-gradient(180deg, #edf6ff, #dcebff);
+      border-color: #9ebfde;
+      box-shadow: 0 6px 14px rgba(35, 84, 130, 0.15);
     }
 
     .key.hold {
       background:
         repeating-linear-gradient(
           -45deg,
-          rgba(12, 143, 127, 0.13),
-          rgba(12, 143, 127, 0.13) 6px,
-          rgba(255, 250, 240, 0.95) 6px,
-          rgba(255, 250, 240, 0.95) 12px
+          rgba(22, 151, 134, 0.13),
+          rgba(22, 151, 134, 0.13) 6px,
+          rgba(255, 255, 255, 0.95) 6px,
+          rgba(255, 255, 255, 0.95) 12px
         ),
-        linear-gradient(180deg, #fffaf0, var(--key-face));
-      border-color: #6ba99f;
+        linear-gradient(180deg, #ffffff, #f1fbf9);
+      border-color: #7cbfb5;
     }
 
     @keyframes key-in {
@@ -207,8 +212,8 @@
 
     .key .count {
       position: absolute;
-      top: 5px;
-      right: 6px;
+      top: 4px;
+      right: 5px;
       width: 18px;
       height: 18px;
       border-radius: 999px;
@@ -219,7 +224,7 @@
       display: grid;
       place-items: center;
       line-height: 1;
-      border: 1px solid rgba(255, 255, 255, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.85);
     }
 
     .key .count.hold-count {
@@ -239,15 +244,15 @@
     }
 
     .hs-keys .key {
-      background: linear-gradient(180deg, #fdf1ff, #f3e3fb);
-      border-color: #b58fce;
-      box-shadow: 0 6px 0 #c9aede, 0 10px 18px rgba(0, 0, 0, 0.09);
+      background: linear-gradient(180deg, #fbf1ff, #f3e7ff);
+      border-color: #c4a7dd;
+      box-shadow: 0 6px 14px rgba(110, 57, 153, 0.18);
     }
 
     .hs-link {
       position: relative;
       z-index: 2;
-      margin: 0 -8px;
+      margin: 0 -7px;
       width: 24px;
       height: 24px;
       border-radius: 50%;
@@ -257,27 +262,28 @@
       font-weight: 700;
       display: grid;
       place-items: center;
-      border: 2px solid var(--panel);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+      border: 2px solid #ffffff;
+      box-shadow: 0 6px 12px rgba(87, 32, 133, 0.28);
     }
 
     .result {
-      margin-top: 6px;
-      font-family: "Fraunces", serif;
-      font-size: clamp(1.5rem, 4vw, 2.5rem);
-      letter-spacing: 0.02em;
-      color: #152139;
+      margin-top: 4px;
+      font-family: "Sora", sans-serif;
+      font-size: clamp(1.45rem, 3.8vw, 2.4rem);
+      letter-spacing: 0.01em;
+      color: #142540;
       min-height: 48px;
     }
 
     .hint {
       color: var(--muted);
-      font-size: 0.92rem;
+      font-size: 0.9rem;
+      line-height: 1.4;
       margin: 0;
     }
 
     .err {
-      color: #b93f22;
+      color: #bf4a2f;
       font-weight: 500;
       min-height: 1.2em;
       margin: 0;
@@ -286,44 +292,44 @@
     .demo-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 10px;
+      gap: 11px;
     }
 
     .demo-btn {
-      border: 1px solid rgba(185, 176, 158, 0.9);
-      border-radius: 12px;
-      background: linear-gradient(180deg, #ffffff, #f8f4ea);
+      border: 1px solid var(--stroke);
+      border-radius: 14px;
+      background: linear-gradient(180deg, #ffffff, #f5f9ff);
       text-align: left;
-      padding: 12px;
+      padding: 13px;
       cursor: pointer;
-      transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
-      font-family: "Space Grotesk", sans-serif;
+      transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
+      font-family: "Manrope", sans-serif;
     }
 
     .demo-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 18px rgba(20, 33, 57, 0.1);
-      border-color: #9eb4c8;
+      box-shadow: 0 12px 20px rgba(30, 55, 92, 0.12);
+      border-color: #a7bdd9;
     }
 
     .demo-name {
       font-size: 0.9rem;
       font-weight: 700;
-      color: #1f2b41;
+      color: #1b2d4a;
       margin-bottom: 6px;
     }
 
     .demo-seq {
       font-size: 0.82rem;
-      color: #4f5c74;
+      color: #5a6781;
       margin-bottom: 5px;
       word-break: break-word;
     }
 
     .demo-out {
-      font-family: "Fraunces", serif;
-      color: #223149;
-      font-size: 1.1rem;
+      font-family: "Sora", sans-serif;
+      color: #223b62;
+      font-size: 1rem;
     }
 
     @media (max-width: 700px) {
@@ -339,7 +345,7 @@
       .key {
         min-width: 50px;
         height: 50px;
-        font-size: 1rem;
+        font-size: 0.95rem;
       }
     }
   </style>
@@ -348,13 +354,13 @@
   <main class="frame">
     <header class="header">
       <h1>Czech Accent Key Sequence</h1>
-      <p class="sub">Type a sequence like <strong>v y s4 i2</strong> to render keycaps and see the output text.</p>
+      <p class="sub">Type a sequence like <strong>s2 l e3 p e2 j</strong> to render keycaps and see the output text.</p>
     </header>
 
     <section class="content">
       <div class="input-row">
         <label for="sequence">Sequence</label>
-        <input id="sequence" type="text" value="v y s4 i2" spellcheck="false" aria-describedby="sequence-help" />
+        <input id="sequence" type="text" value="s2 l e3 p e2 j" spellcheck="false" aria-describedby="sequence-help" />
         <p id="sequence-help" class="hint">Tokens: tap s4, hold s~2, pre RAlt+e, post a+RAlt, hotstring hs(cv). Separate tokens by spaces.</p>
         <p id="error" class="err" aria-live="polite"></p>
       </div>
@@ -440,28 +446,28 @@
     const methodDemos = [
       {
         name: "Taps (CzechAccentsTaps)",
-        sequence: "v y s4 i2",
-        expected: "vyšší"
+        sequence: "s2 l e3 p e2 j",
+        expected: "šlépěj"
       },
       {
         name: "Hold (CzechAccentsHold)",
-        sequence: "v y s~1 s~1 i~1",
-        expected: "vyšší"
+        sequence: "s~1 l e~2 p e~1 j",
+        expected: "šlépěj"
       },
       {
         name: "Pre RAlt (CzechAccentsPre)",
-        sequence: "v y RAlt+s RAlt+s RAlt+i",
-        expected: "vyšší"
+        sequence: "RAlt+s l RAlt+' p RAlt+e j",
+        expected: "šlépěj"
       },
       {
         name: "Post RAlt (CzechAccentsPost)",
-        sequence: "v y s+RAlt s+RAlt i+RAlt",
-        expected: "vyšší"
+        sequence: "s+RAlt l e+RAlt+RAlt p e+RAlt j",
+        expected: "šlépěj"
       },
       {
         name: "Hotstrings (CzechAccentsHotstrings)",
-        sequence: "v y hs(sd) hs(sd) hs(io)",
-        expected: "vyšší"
+        sequence: "hs(sd) l hs(we) p hs(er) j",
+        expected: "šlépěj"
       }
     ];
 
@@ -549,7 +555,9 @@
       if (!mapped) {
         return key;
       }
-      return key === key.toUpperCase() ? mapped.toUpperCase() : mapped;
+      const isLetter = /^\p{L}$/u.test(key);
+      const isUpperLetter = isLetter && key === key.toUpperCase();
+      return isUpperLetter ? mapped.toUpperCase() : mapped;
     }
 
     function applyPostRAltOutput(key, presses) {
