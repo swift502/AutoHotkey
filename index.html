@@ -240,6 +240,17 @@
 
     .key .count.hold-count {
       background: var(--badge-hold);
+      width: auto;
+      min-width: 20px;
+      padding: 0 5px;
+      gap: 2px;
+      grid-auto-flow: column;
+    }
+
+    .key .count.hold-count svg {
+      width: 11px;
+      height: 11px;
+      display: block;
     }
 
     .hs-combo {
@@ -425,6 +436,10 @@
       "'": "é"
     };
 
+    const preRAltDoubleMap = {
+      e: "é"
+    };
+
     const hotstringMap = {
       as: "á",
       cv: "č",
@@ -463,7 +478,7 @@
       },
       {
         name: "Pre RAlt (CzechAccentsPre)",
-        sequence: "RAlt+s l RAlt+' p RAlt+e j",
+        sequence: "RAlt+s l RAlt+e+e p RAlt+e j",
         expected: "šlépěj"
       },
       {
@@ -499,9 +514,10 @@
         return { type: "hotstring", combo: m[1] };
       }
 
-      m = token.match(/^ralt\+(.{1})$/iu);
+      m = token.match(/^ralt\+(.+)$/iu);
       if (m) {
-        return { type: "pre-ralt", key: m[1] };
+        const keys = m[1].split("+");
+        return { type: "pre-ralt", key: keys[0], count: keys.length };
       }
 
       m = token.match(/^(.{1})((?:\+ralt)+)$/iu);
@@ -557,8 +573,9 @@
       return out;
     }
 
-    function applyPreRAltOutput(key) {
-      const mapped = preRAltMap[key.toLowerCase()];
+    function applyPreRAltOutput(key, count = 1) {
+      const lower = key.toLowerCase();
+      const mapped = (count >= 2 && preRAltDoubleMap[lower]) || preRAltMap[lower];
       if (!mapped) {
         return key;
       }
@@ -599,7 +616,19 @@
     function addCountBadge(keycap, text, className = "") {
       const badge = document.createElement("span");
       badge.className = className ? "count " + className : "count";
-      badge.textContent = text;
+      if (className.includes("hold-count")) {
+        badge.innerHTML =
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+          '<circle cx="12" cy="13" r="8"></circle>' +
+          '<path d="M12 9v4l2.5 2.5"></path>' +
+          '<path d="M9 2h6"></path>' +
+          '</svg>';
+        const num = document.createElement("span");
+        num.textContent = text;
+        badge.appendChild(num);
+      } else {
+        badge.textContent = text;
+      }
       keycap.appendChild(badge);
     }
 
@@ -625,11 +654,13 @@
 
       if (parsed.type === "pre-ralt") {
         tokenEl.appendChild(createKey("RAlt", ["mod"]));
-        const plus = document.createElement("span");
-        plus.className = "plus";
-        plus.textContent = "+";
-        tokenEl.appendChild(plus);
-        tokenEl.appendChild(createKey(parsed.key));
+        for (let i = 0; i < parsed.count; i++) {
+          const plus = document.createElement("span");
+          plus.className = "plus";
+          plus.textContent = "+";
+          tokenEl.appendChild(plus);
+          tokenEl.appendChild(createKey(parsed.key));
+        }
         return tokenEl;
       }
 
@@ -679,7 +710,7 @@
         return applyHoldOutput(parsed.key, parsed.intervals);
       }
       if (parsed.type === "pre-ralt") {
-        return applyPreRAltOutput(parsed.key);
+        return applyPreRAltOutput(parsed.key, parsed.count);
       }
       if (parsed.type === "post-ralt") {
         return applyPostRAltOutput(parsed.key, parsed.presses);
